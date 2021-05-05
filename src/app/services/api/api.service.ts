@@ -16,16 +16,9 @@ export class ApiService {
     private auth: AuthService,
   ) { }
 
-
-
   getItemTypes() {
     // GET /itemtypes
 
-    const httpOptions = {
-      headers: { 
-        'Authorization':this.auth.authToken,
-      }
-    };
 
     return this.http.get(environment.backendUrl + '/itemtypes')
       .pipe(tap(console.log));
