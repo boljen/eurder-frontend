@@ -1,151 +1,69 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
-
+import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { ItemType } from './types';
+import { ItemState, ItemType, ItemTypeData, OrderSummary, RestockUrgency, StockItem, StockRecord, User, UserData } from './types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
 
+  private url: string = environment.backendUrl;
+
   constructor(
     private http: HttpClient,
   ) { }
 
-  getItemTypes(): Observable<ItemType> {
-    return this.http.get(environment.backendUrl + '/itemtypes')
-      .pipe(tap(console.log));
+  getItemTypes(): Observable<ItemType[]> {
+    return this.http.get<ItemType[]>(`${this.url}/itemtypes`);
   }
 
-//   createItemType() {
-//     /*
-//     {
-//       "name": "string",
-//       "description": "string",
-//       "price": 0,
-//       "stock": 0
-//     }
-//     */
-//     // POST /itemtypes
-//   }
+  createItemType(itemType: ItemTypeData) {
+    return this.http.post<ItemType>(`${this.url}/itemtypes`, itemType);
+  }
 
-//   updateItemType(itemTypeId: string) {
-//     /*
-//     {
-//       "name": "string",
-//       "description": "string",
-//       "price": 0,
-//       "stock": 0
-//     }
-//     */
-//     // PUT /itemtypes/{itemTypeId}
-//   }
+  updateItemType(id: string, data: ItemTypeData): Observable<ItemType> {
+    return this.http.put<ItemType>(`${this.url}/itemtypes/${id}`, data);
+  }
 
-//   getItemStock() {
-//     // GET /stock
-//   }
+  getStock(urgency?: RestockUrgency): Observable<StockRecord[]> {
+    const qry = (urgency) ? "?urgency="+  urgency.toString() : "";
+    return this.http.get<StockRecord[]>(`${this.url}/stock${qry}`);
+  }
 
-//   createItem(itemTypeId: string) {
-//     // POST ​/stock​/{itemTypeId}​/items
-//   }
+  createStockItem(itemTypeId: string, state: string): Observable<StockItem> {
+    return this.http.post<StockItem>(`${this.url}/stock/${itemTypeId}/items`, {state});
+  } 
 
-//   deleteItem(itemTypeId: string, itemId: string) {
-//     // DELETE /stock/{itemTypeId}/items/{itemId}
-//   }
+  deleteStockItem(itemTypeId: string, itemId: string): Observable<void> {
+    return this.http.delete<void>(`${this.url}/stock/${itemTypeId}/items/${itemId}`);
+  }
 
-//   updateItemState(itemTypeId: string, itemId: string) {
-//       // PUT /stock/{itemTypeId}/items/{itemId}/state
-//   }
+  updateItemState(itemTypeId: string, itemId: string, state: ItemState):Observable<StockItem> {
+      return this.http.put<StockItem>(
+        `${this.url}/stock/${itemTypeId}/items/${itemId}/state`,
+        state.toString(),
+      );
+  }
 
-//   getUsers() {
-//     // GET /users
-//     /* [
-//   {
-//     "id": "string",
-//     "firstName": "string",
-//     "lastName": "string",
-//     "emailAddress": "string",
-//     "phoneNumber": "string",
-//     "address": {
-//       "country": "string",
-//       "city": "string",
-//       "postalCode": "string",
-//       "street": "string",
-//       "houseNumber": "string"
-//     }
-//   }
-// ]*/
-//   }
+  getUsers(): Observable<User[]> {
+      return this.http.get<User[]>(`${this.url}/users`);
+  }
 
-//   getUser(userId: string) {
-//     // GET /users/{userId}
-//     /*
-//     UserDTO
+  getUser(userId: string): Observable<User> {
+    return this.http.get<User>(`${this.url}/users/${userId}`);
+  }
 
-//     {
-//       "id": "string",
-//       "firstName": "string",
-//       "lastName": "string",
-//       "emailAddress": "string",
-//       "phoneNumber": "string",
-//       "address": {
-//         "country": "string",
-//         "city": "string",
-//         "postalCode": "string",
-//         "street": "string",
-//         "houseNumber": "string"
-//       }
-//     }
-//     */
-//   }
+  createUser(data: UserData): Observable<User> {
+    return this.http.post<User>(`${this.url}/users`, data);
+  }
 
-//   createUser() {
-//     /*
+  getOrders(): Observable<OrderSummary> {
+    return this.http.get<OrderSummary>(`${this.url}/orders`);
+  }
 
-//     CREATEUserDTO
-//     {
-//       "firstName": "string",
-//       "lastName": "string",
-//       "emailAddress": "string",
-//       "phoneNumber": "string"
-//       "address": {
-//         "country": "string",
-//         "city": "string",
-//         "postalCode": "string",
-//         "street": "string",
-//         "houseNumber": "string"
-//       },
-//     }
-//     */
-//   }
-
-
-//   getOrders() {
-//     // GET /orders
-
-//     /*
-//     {
-//   "totalPrice": 0,
-//   "orders": [
-//     {
-//       "id": "string",
-//       "totalPrice": 0,
-//       "itemGroups": [
-//         {
-//           "name": "string",
-//           "orderedAmount": 0,
-//           "totalPrice": 0
-//         }
-//       ]
-//     }
-//   ]
-// }
-// */
-//   }
 
 //   createOrder() {
 
@@ -204,5 +122,4 @@ export class ApiService {
 // ]
 // */
 //   }
-
 }
