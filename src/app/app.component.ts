@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ApiService } from './services/api/api.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'eurder-frontend';
+
+  constructor(private apiService: ApiService) {
+    apiService.getItemTypes().toPromise().then(console.log);
+  }
 }
