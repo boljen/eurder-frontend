@@ -7,16 +7,8 @@ import {  Observable } from 'rxjs';
 })
 export class AuthService  {
 
-  private _authToken: string = 'user-id-1';
+  public authToken = 'user-id-1';
 
   constructor() { }
-
-  public get authToken(): string {
-    return this._authToken;
-  }
-
-  public set authToken(token: string) {
-    this._authToken = token;
-  }
 
 }

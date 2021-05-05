@@ -8,7 +8,7 @@ describe('ApiService', () => {
   let service: ApiService;
   let injector: TestBed;
   let httpMock: HttpTestingController;
-  
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -24,9 +24,9 @@ describe('ApiService', () => {
   });
 
   it('should get item types', (done) => {
-    console.log('getting item types?')
+    console.log('getting item types?');
     service.getItemTypes()
-      .toPromise()  
+      .toPromise()
       .then(done);
 
     const req = httpMock.expectOne(environment.backendUrl + '/itemtypes');
