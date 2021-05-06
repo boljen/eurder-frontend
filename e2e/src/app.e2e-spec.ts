@@ -8,9 +8,9 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', async () => {
+  it('should display correct logo', async () => {
     await page.navigateTo();
-    expect(await page.getTitleText()).toEqual('eurder-frontend app is running!');
+    expect(await page.getLogoSource()).toContain("/assets/logo.png");
   });
 
   afterEach(async () => {

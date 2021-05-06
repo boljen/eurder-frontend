@@ -6,10 +6,18 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 
 import {   httpInterceptorProviders } from './interceptors';
+import { HeaderComponent } from './layout/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
+import { ContainerComponent } from './layout/container/container.component';
+import { ItemOverviewComponent } from './components/item-overview/item-overview.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    FooterComponent,
+    ContainerComponent,
+    ItemOverviewComponent
   ],
   imports: [
     BrowserModule,
