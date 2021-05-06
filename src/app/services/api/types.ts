@@ -1,71 +1,89 @@
-
-export interface ItemTypeData {
-    name: string;
-    price: number;
-    description: string;
-}
-
-export interface ItemType extends ItemTypeData {
+export interface Customer {
     id: string;
+    firstname: string;
+    lastname: string;
 }
 
-export enum RestockUrgency {
-    STOCK_LOW="STOCK_LOW",
-    STOCK_MEDIUM="STOCK_MEDIUM",
-    STOCK_HIGH="STOCK_HIGH"
-}
-
-export interface StockRecord {
-    stockAmount: number;
-    urgency: RestockUrgency;
-    item: ItemType;
-}
-
-export enum ItemState {
-    PRISTINE= "PRISTINE",
-    SLIGHTLY_DAMAGED="SLIGHTLY_DAMAGED",
-    DAMAGED="DAMAGED"
-}
-
-export interface StockItem {
-    id: string;
-    itemState: ItemState;
-    itemType: string;
-}
 
 export interface Address {
     country: string;
-    city: string;
     postalCode: string;
-    street: string;
+    streetName: string;
     houseNumber: string;
 }
+export interface Email {
+    complete: string;
+    domain: string;
+    localPart: string;
+}
 
-export interface UserData {
-    firstName: string;
-    lastName: string;
-    emailAddress: string;
-    phoneNumber: string;
+export interface PhoneNumber {
+    countryCallingCode: string;
+    number: string;
+}
+
+export interface CustomerData {
     address: Address;
+    email: Email;
+    firstname: string;
+    lastname: string;
+    phoneNumber: PhoneNumber;
 }
 
-export interface User extends UserData {
+export interface CustomerDetails extends CustomerData {
     id: string;
 }
 
-interface ItemGroupData {
+export enum StockUrgency {
+    STOCK_HIGH="STOCK_HIGH",
+    STOCK_MEDIUM="STOCK_MEDIUM",
+    STOCK_LOW="STOCK_LOW",
+}
+
+export interface ItemData {
+    amountOfStock: number;
+    description: string;
     name: string;
-    orderedAmount: number;
-    totalPrice: number;
+    price: number;
 }
 
-interface OrderData {
+export interface ItemDetails extends ItemData {
     id: string;
-    totalPrice: number;
-    itemGroups: ItemGroupData[];
+    stockUrgency: StockUrgency;
 }
 
-export interface OrderSummary {
+export interface ItemGroup {
+    itemId: string;
+    orderedAmount: number;
+}
+
+export interface OrderDetails {
+    orderId: string;
+    address: Address;
+    itemGroups: ItemGroup[];
+}
+
+export interface CreateOrderRequest {
+    customerId: string;
+    itemGroups: ItemGroup[];
+}
+
+export interface CreateOrderResponse {
+    orderId: string;
     totalPrice: number;
-    orders: OrderData[];
+}
+
+export interface ItemGroupOrderDetails extends ItemGroup {
+    name: string;
+    totalPrice: number;
+}
+
+export interface CustomerOrderDetails {
+    orderId: string;
+    itemGroups: ItemGroupOrderDetails[];
+}
+
+export interface CustomerOrderReport {
+    totalPriceOfAllOrders: number;
+    orders: CustomerOrderDetails[];
 }

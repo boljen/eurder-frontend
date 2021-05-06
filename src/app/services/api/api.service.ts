@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { ItemState, ItemType, ItemTypeData, OrderSummary, RestockUrgency, StockItem, StockRecord, User, UserData } from './types';
+import { CreateOrderRequest, CreateOrderResponse, Customer, CustomerData, CustomerDetails, CustomerOrderReport, ItemData, ItemDetails, OrderDetails, StockUrgency } from './types';
 
 @Injectable({
   providedIn: 'root',
@@ -16,110 +16,59 @@ export class ApiService {
     private http: HttpClient,
   ) { }
 
-  getItemTypes(): Observable<ItemType[]> {
-    return this.http.get<ItemType[]>(`${this.url}/itemtypes`);
+  getAllCustomers(): Observable<Customer[]> {
+    return this.http.get<Customer[]>(`${this.url}/customers`);
   }
 
-  createItemType(itemType: ItemTypeData) {
-    return this.http.post<ItemType>(`${this.url}/itemtypes`, itemType);
+  createCustomer(data: CustomerData): Observable<CustomerDetails> {
+    return this.http.post<CustomerDetails>(`${this.url}/customers`, data);
   }
 
-  updateItemType(id: string, data: ItemTypeData): Observable<ItemType> {
-    return this.http.put<ItemType>(`${this.url}/itemtypes/${id}`, data);
+  getCustomer(id: string): Observable<CustomerDetails> {
+    return this.http.get<CustomerDetails>(`${this.url}/customers/${id}`);
   }
 
-  getStock(urgency?: RestockUrgency): Observable<StockRecord[]> {
-    const qry = (urgency) ? "?urgency="+  urgency.toString() : "";
-    return this.http.get<StockRecord[]>(`${this.url}/stock${qry}`);
+  updateCustomer(data: CustomerDetails): Observable<CustomerDetails> {
+    return this.http.put<CustomerDetails>(`${this.url}/customers/${data.id}`, data);
   }
 
-  createStockItem(itemTypeId: string, state: string): Observable<StockItem> {
-    return this.http.post<StockItem>(`${this.url}/stock/${itemTypeId}/items`, {state});
-  } 
-
-  deleteStockItem(itemTypeId: string, itemId: string): Observable<void> {
-    return this.http.delete<void>(`${this.url}/stock/${itemTypeId}/items/${itemId}`);
+  getItems(urgency?: StockUrgency): Observable<ItemDetails[]> {
+    let params = new HttpParams();
+    if (urgency !== undefined) {
+      params = params.append("stockUrgency", StockUrgency[urgency]);
+    }
+    return this.http.get<ItemDetails[]>(`${this.url}/items`, { params })
   }
 
-  updateItemState(itemTypeId: string, itemId: string, state: ItemState):Observable<StockItem> {
-      return this.http.put<StockItem>(
-        `${this.url}/stock/${itemTypeId}/items/${itemId}/state`,
-        state.toString(),
-      );
+  getItem(id: string): Observable<ItemDetails> {
+    return this.http.get<ItemDetails>(`${this.url}/items/${id}`);
   }
 
-  getUsers(): Observable<User[]> {
-      return this.http.get<User[]>(`${this.url}/users`);
+  createItem(data: ItemData): Observable<ItemDetails> {
+    return this.http.post<ItemDetails>(`${this.url}/items`, data);
   }
 
-  getUser(userId: string): Observable<User> {
-    return this.http.get<User>(`${this.url}/users/${userId}`);
+  updateItem(data: ItemDetails): Observable<ItemDetails> {
+    return this.http.put<ItemDetails>(`${this.url}/items/${data.id}`, data);
+  }  
+
+  getOrders(shippableToday?: boolean): Observable<OrderDetails[]> {
+    let params = new HttpParams();
+    if (shippableToday !== undefined) {
+      params = params.append("shippableToday", shippableToday.toString());
+    }
+    return this.http.get<OrderDetails[]>(`${this.url}/orders`, { params });
   }
 
-  createUser(data: UserData): Observable<User> {
-    return this.http.post<User>(`${this.url}/users`, data);
+  createOrder(data: CreateOrderRequest): Observable<CreateOrderResponse> {
+    return this.http.post<CreateOrderResponse>(`${this.url}/orders`, data);
   }
 
-  getOrders(): Observable<OrderSummary> {
-    return this.http.get<OrderSummary>(`${this.url}/orders`);
+  reorder(orderId: string): Observable<CreateOrderResponse> {
+    return this.http.post<CreateOrderResponse>(`${this.url}/orders/${orderId}/reorder`, null);
   }
 
-
-//   createOrder() {
-
-//     /*
-//       with a copyFrom?
-//       -> Without?
-//     */
-
-
-//     /*
-
-//     {
-//   "id": "string",
-//   "itemGroups": [
-//     {
-//       "item": {
-//         "id": "string",
-//         "name": "string",
-//         "description": "string",
-//         "price": 0
-//       },
-//       "totalPrice": 0,
-//       "backorder": 0,
-//       "shippingDate": "2021-05-04"
-//     }
-//   ],
-//   "price": 0
-// }
-// */
-//   }
-
-//   getShipments() {
-
-//     // GET /shipping
-
-//     /*
-
-//     [
-//   {
-//     "orderId": "string",
-//     "address": "string",
-//     "itemGroups": [
-//       {
-//         "item": {
-//           "id": "string",
-//           "name": "string",
-//           "description": "string",
-//           "price": 0
-//         },
-//         "totalPrice": 0,
-//         "backorder": 0,
-//         "shippingDate": "2021-05-04"
-//       }
-//     ]
-//   }
-// ]
-// */
-//   }
+  getCustomerOrders(customerId: string): Observable<CustomerOrderReport> {
+    return this.http.get<CustomerOrderReport>(`${this.url}/orders/customers/${customerId}`);
+  }
 }
