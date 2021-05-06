@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { ApiService } from './services/api/api.service';
-import { StockUrgency } from './services/api/types';
 
 @Component({
   selector: 'app-root',
