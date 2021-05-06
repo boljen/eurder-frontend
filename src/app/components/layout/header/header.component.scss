@@ -1,8 +1,15 @@
-:host {
-    border-bottom: 1px solid #666;
+.my-navbar {
     padding: 10px 0 10px 0;
+    border-bottom: 1px solid #666;
+    margin: 0;
+
+    .container-fluid {
+        margin: 0;
+        padding: 0;
+    }
 }
 
 .logo {
     width: 140px;
 }
+
