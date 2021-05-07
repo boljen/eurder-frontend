@@ -1,0 +1,14 @@
+.page-title {
+    display: flex;
+    border-bottom: 1px solid #666;
+    padding: 10px 0 10px 0;
+    color: #333;
+    margin-bottom: 15px;
+
+    .title {
+        font-size: 1.4em;
+        font-weight: 500;
+    }
+    
+    .content {}
+}

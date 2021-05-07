@@ -1,1 +1,18 @@
-<p>item-overview works!</p>
+<app-page-title title="Items"></app-page-title>
+
+<ul *ngIf="items$ | async as items" class="items-container">
+    <li *ngFor="let item of items">
+        <h3>
+            {{item.name}} 
+        </h3>        
+        <img src="https://dummyimage.com/260x150/e8e8e8/000000.png" />
+        <div class="info">
+            <div class="price">
+                Price: {{item.price | currency:'EUR'}}
+            </div>
+            <div class="stock">
+                <app-stock-indicator [urgency]="item.stockUrgency"></app-stock-indicator>
+            </div>
+        </div>
+    </li>
+</ul>

@@ -1,0 +1,17 @@
+img {
+    width: 15px;
+
+}
+
+// https://codepen.io/sosuke/pen/Pjoqqp
+.red {
+    filter: invert(9%) sepia(99%) saturate(6387%) hue-rotate(6deg) brightness(90%) contrast(112%);
+}
+
+.orange {
+    filter: invert(68%) sepia(52%) saturate(2288%) hue-rotate(359deg) brightness(101%) contrast(104%);
+}
+
+.green {
+    filter: invert(80%) sepia(41%) saturate(256%) hue-rotate(71deg) brightness(89%) contrast(86%);
+}

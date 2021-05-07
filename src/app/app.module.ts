@@ -10,6 +10,8 @@ import { HeaderComponent } from './components/layout/header/header.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
 import { ContainerComponent } from './components/layout/container/container.component';
 import { ItemOverviewComponent } from './components/item-overview/item-overview.component';
+import { PageTitleComponent } from './components/layout/page-title/page-title.component';
+import { StockIndicatorComponent } from './components/stock-indicator/stock-indicator.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { ItemOverviewComponent } from './components/item-overview/item-overview.
     HeaderComponent,
     FooterComponent,
     ContainerComponent,
-    ItemOverviewComponent
+    ItemOverviewComponent,
+    PageTitleComponent,
+    StockIndicatorComponent
   ],
   imports: [
     BrowserModule,
