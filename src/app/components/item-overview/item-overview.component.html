@@ -1,4 +1,9 @@
-<app-page-title title="Items"></app-page-title>
+<app-page-title title="Items">
+    <div class="form-outline search-box">
+        <input type="search" id="form1" class="form-control" placeholder="Filter on name"
+        aria-label="Search" (keyup)="onKey($event)" />
+    </div>
+</app-page-title>
 
 <ul *ngIf="items$ | async as items" class="items-container">
     <li *ngFor="let item of items">

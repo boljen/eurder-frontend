@@ -12,6 +12,7 @@ import { ContainerComponent } from './components/layout/container/container.comp
 import { ItemOverviewComponent } from './components/item-overview/item-overview.component';
 import { PageTitleComponent } from './components/layout/page-title/page-title.component';
 import { StockIndicatorComponent } from './components/stock-indicator/stock-indicator.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { StockIndicatorComponent } from './components/stock-indicator/stock-indi
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [
     httpInterceptorProviders,
